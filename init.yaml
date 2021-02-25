@@ -1,0 +1,41 @@
+package_update: true
+package_upgrade: true
+packages:
+  - docker.io
+  - git
+  - fzf
+  - zsh
+  - make
+  - build-essential
+  - libssl-dev
+  - zlib1g-dev
+  - libbz2-dev
+  - libreadline-dev 
+  - libsqlite3-dev
+  - docker
+  - wget
+  - curl
+  - llvm
+  - libncurses5-dev
+  - libncursesw5-dev
+  - xz-utils
+  - tk-dev
+  - libffi-dev
+  - liblzma-dev
+  - python-openssl
+
+system_info:
+  default_user:
+    groups: [docker]
+runcmd:
+  - [ sh, -c, echo "=========hello world'=========" ]
+  - runuser -l ubuntu -c 'sh -c "$(curl -fsSL https://raw.githubusercontent.com/coreycole/oh-my-zsh/master/tools/install.sh)"' 
+  - chsh -s $(which zsh) ubuntu
+  - zsh --version
+  - runuser -l ubuntu -c 'sh -c "$(curl https://pyenv.run | bash)"'
+  - git clone https://github.com/Laudenlaruto/dotfiles.git /home/ubuntu/dotfils
+  - chown -R ubuntu:ubuntu /home/ubuntu/dotfils
+  - chsh -s $(which zsh)
+  - rm -rf /home/ubuntu/.zshrc
+  - runuser -l ubuntu -c '/home/ubuntu/dotfils/install'
+  - runuser -l ubuntu -c 'zsh'

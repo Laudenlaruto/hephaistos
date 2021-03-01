@@ -23,6 +23,8 @@ packages:
   - libffi-dev
   - liblzma-dev
   - python-openssl
+  - zip
+  - unzip
 
 system_info:
   default_user:
@@ -35,7 +37,18 @@ runcmd:
   - runuser -l ubuntu -c 'sh -c "$(curl https://pyenv.run | bash)"'
   - git clone https://github.com/Laudenlaruto/dotfiles.git /home/ubuntu/dotfils
   - chown -R ubuntu:ubuntu /home/ubuntu/dotfils
-  - chsh -s $(which zsh)
   - rm -rf /home/ubuntu/.zshrc
   - runuser -l ubuntu -c '/home/ubuntu/dotfils/install'
   - runuser -l ubuntu -c 'zsh'
+  - runuser -l ubuntu -c 'vim -s /home/ubuntu/dotfils/setupvim'
+  - curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  - install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+  - wget https://rawgit.com/ahmetb/kubectl-alias/master/.kubectl_aliases -P /home/ubuntu/
+  - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  - unzip awscliv2.zip
+  - ./aws/install
+  - curl https://sdk.cloud.google.com > install.sh
+  - bash ./install.sh --disable-prompts --install-dir=/usr/local/gcloud
+  - ln -s /usr/local/gcloud/google-cloud-sdk/bin/gcloud /usr/local/bin/gcloud
+
+
